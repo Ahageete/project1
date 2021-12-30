@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>首页</title>
+<link rel="shortcut icon" href="img/favicon.ico">
+<style type="text/css">
+[v-cloak] {
+	display: none
+}
+</style>
+</head>
+
+<body style="background-color: 50, 57, 62;">
+	<div id="app">
+		<a href="/auth/sign/out">退出</a>
+		<h1>============== 首 页 ==============</h1>
+		<table border="1">
+			<thead v-for="(v,k) in menuList">
+				<tr>
+					<th><a v-cloak @click="goToUrl(v.menuUrl)">{{v.menuName}}</a></th>
+				</tr>
+				<tr v-show="v.childrenMenus.length>0" v-for="(cv,ck) in v.childrenMenus">
+					<th><a v-cloak @click="goToUrl(v.menuUrl+cv.menuUrl)">{{cv.menuName}}</a></th>
+				</tr>
+			</thead
+		</table>
+		<div></div>
+		<button @click="testPage">Test</button>
+	</div>
+</body>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/jQueryAjaxConfig.js"></script>
+<script src="js/vue.global.js"></script>
+<script src="js/index.js"></script>
+
+</html>

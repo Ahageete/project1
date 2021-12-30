@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/dialog.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style type="text/css">
+        label.error {
+            font-size: 14px;
+            font-weight: 400;
+            margin-left: 0;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+
+    <div class="loginColumns animated fadeInDown">
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2 class="font-bold"><span style="color: #1ab394;">国开行运维管理工具平台</span></h2>
+                <p>
+                    国开行运维管理工具平台能让您快速查询到人员配置、联系方式及各类分布、数据情况等信息。
+                </p>
+                <p>
+                    我们致力于为您打造一款您所需一切的管理工具平台。
+                </p>
+            </div>
+            <div class="col-md-6">
+                <div class="ibox-content">
+                    <form class="loginWp">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="用户名" name="user" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="密码" name="pasword" />
+                        </div>
+                        <button class="btn btn-primary block full-width m-b login_btn" type="button">登录</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr style="border-top: 1px solid #d4d4da;" />
+        <div class="row">
+            <div class="col-md-6 text-right">
+                © Ahageete
+            </div>
+            <div class="col-md-6 text-right">
+                <small>电话:010-68303254 邮箱:tools@cdb.com.cn</small>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var validate = $(".loginWp").validate({
+        rules: {
+            user: {
+                required: true,
+                minlength: 2
+            },
+            pasword: {
+                required: true,
+                minlength: 4
+            }
+        },
+        messages: {
+            user: {
+                required: "请输入用户名",
+                minlength: "请输入至少2个字符"
+            },
+            pasword: {
+                required: "请输入密码",
+                minlength: "请输入至少4个字符"
+            }
+        }
+    });
+
+    var runUrl = 'http://localhost';
+    $('.login_btn').click(function () {
+        var fawp = $(this).parents('.loginWp');
+        var user = fawp.find("input[name='user']").val();
+        var paswod = fawp.find("input[name='pasword']").val();
+        if ($(this).parents('.loginWp').valid()) {
+            var str="{\"loginName\":\"" + user + "\",\"loginPassword\":\"" + paswod + "\"}";
+            alert(str);
+            $.ajax({
+                type: 'post',
+                url: 'https://localhost/auth/sign/in',
+                data: "{\"loginName\":\"" + user + "\",\"loginPassword\":\"" + paswod + "\"}",
+                dateType: 'json',
+                contentType: "application/json",
+                success: function (data) {
+                    if (data == '') {
+                        window.location.href = "index.html";
+                    } else {
+                        var d = dialog({
+                            content: data
+                        });
+                        d.show();
+                        setTimeout(function () {
+                            d.close().remove();
+                        }, 2500);
+                    }
+                }
+            });
+        } else {
+            var d = dialog({
+                content: '您有验证未通过'
+            });
+            d.show();
+            setTimeout(function () {
+                d.close().remove();
+            }, 2500);
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+</head>
+
+<body>
+	<h1>========= 首页 =========</h1>
+	<div id="app">
+		<button @click="addOne">新增</button>
+		<table border="1">
+			<thead>
+				<th>编号</th>
+				<th>功能</th>
+				<th>路径</th>
+				<th>子菜单</th>
+				<th>编辑</th>
+			</thead>
+			<tbody>
+				<tr v-for="(val,key) in menuObjList">
+					<td :id="">{{val.menuId}}</td>
+					<td>{{val.menuName}}</td>
+					<td>{{val.menuUrl}}</td>
+					<td>{{val.childrenMenus}}</td>
+					<td><button @click="editOne(val)">修改</button><button @click="delOne(val.menuId)">删除</button></td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<button>-</button>
+			第<input style="width: 3%;" v-model="pageNo" />页
+			<button>+</button>
+			每页{{pageSize}}条
+		</div>
+		<div v-show="edit_add">
+			<h1>========= 新增 =========</h1>
+			<table border="1">
+				<thead>
+					<th>编号</th>
+					<th>功能</th>
+					<th>路径</th>
+					<th>编辑</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{menuId}}</td>
+						<td><input type="text" v-model="menuName" :value="menuName"></td>
+						<td><input type="text" v-model="menuUrl" :value="menuUrl"></td>
+						<td><button @click="saveOne">保存</button><button @click="cancelOne">取消</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/vue.global.js"></script>
+<script src="js/index.js"></script>
+
+</html>
